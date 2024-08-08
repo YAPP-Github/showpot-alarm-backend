@@ -1,0 +1,17 @@
+allprojects {
+    bootJar.enabled = false
+    jar.enabled = true
+
+    dependencies {
+        implementation 'org.springframework.data:spring-data-commons:3.3.0'
+
+        implementation "org.springframework.boot:spring-boot-starter-web"
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+    }
+}
+
+dependencies {
+    // for config registry
+    implementation project(":app:api:user-api")
+    implementation project(":app:api:show-api")
+}

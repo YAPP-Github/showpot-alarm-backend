@@ -1,0 +1,19 @@
+rootProject.name = 'alarm'
+include (":app")
+include (":common")
+
+
+include (":app:api")
+include (":app:api:common-api")
+include (":app:api:show-api")
+include (":app:api:user-api")
+
+include (":app:domain")
+include (":app:domain:user-domain")
+include (":app:domain:show-domain")
+include (":app:domain:common-domain")
+
+include (":app:infrastructure")
+include (":app:batch")
+
+

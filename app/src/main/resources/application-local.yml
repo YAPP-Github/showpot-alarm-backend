@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start_and_stop
+      stop:
+        command: down
+        timeout: 1m
+      file: docker-compose-local.yml
+  data:
+    redis:
+      host: localhost
+      port: 6379
