@@ -16,8 +16,3 @@ spring:
     username: ${APPLICATION_DATASOURCE_USERNAME}
     password: ${APPLICATION_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
-
-  sql:
-    init:
-      mode: always
-      platform: local
