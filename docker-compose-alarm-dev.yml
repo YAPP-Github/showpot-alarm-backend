@@ -1,12 +1,4 @@
 services:
-  redis:
-    container_name: yapp_redis
-    image: redis:alpine
-    ports:
-      - '6379:6379'
-    networks:
-      - app-network
-
   app:
     image: yapp_alarm
     container_name: yapp_alarm_server
