@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({UserApiConfig.class, ShowApiConfig.class})
+@Import({SubscriptionApiConfig.class, TicketingApiConfig.class})
 public class ApiConfig {
 
 }
