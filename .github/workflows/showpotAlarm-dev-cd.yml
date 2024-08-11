@@ -27,7 +27,6 @@ jobs:
         uses: microsoft/variable-substitution@v1
         with:
           files: './app/src/main/resources/application-dev.yml, 
-          ./app/src/main/resources/application-cloud-dev.yml, 
           ./app/domain/common-domain/src/main/resources/application-domain-dev.yml'
         env:
           spring.datasource.url: ${{ secrets.APPLICATION_DATASOURCE_URL_DEV }}
