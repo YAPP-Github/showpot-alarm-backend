@@ -1,6 +1,9 @@
 name: ShowPotAlarm-Dev-CI
 
 on:
+  push:
+    branches:
+      - develop
   pull_request:
     branches:
       - develop
