@@ -1,5 +1,6 @@
 dependencies {
-    implementation project(":app:api:show-api")
+    implementation project(":app:api:subscription-api")
+    implementation project(":app:api:ticketing-api")
 
     //redis pub & sub
     implementation 'org.springframework.data:spring-data-redis'
