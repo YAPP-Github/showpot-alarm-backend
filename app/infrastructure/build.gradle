@@ -8,5 +8,5 @@ allprojects {
 }
 
 dependencies {
-
+    implementation project(":app:infrastructure:message-queue")
 }
