@@ -35,9 +35,9 @@ jobs:
 
       - name: Prepare File for Deployment
         run: |
-          mkdir -p deployment-alarm/alarm_app/build/libs
+          mkdir -p deployment-alarm/app/build/libs
           cp dockerfile-alarm-dev docker-compose-alarm-dev.yml deployment-alarm/
-          cp -r ./app/build/libs deployment-alarm/alarm_app/build
+          cp -r ./app/build/libs deployment-alarm/app/build
 
       - name: Get Github Actions IP
         id: ip
