@@ -39,7 +39,7 @@ jobs:
       - name: Prepare File for Deployment
         run: |
           mkdir -p deployment/alarm_app/build/libs
-          cp dockerfile-alarm-dev docker-compose-alarm-dev.yml deployment/
+          cp dockerfile-alarm-dev docker-compose-alarm-dev.yml deployment/alarm/
           cp -r ./app/build/libs deployment/alarm_app/build
 
       - name: Get Github Actions IP
@@ -63,7 +63,7 @@ jobs:
           host: ${{ secrets.EC2_DEV_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_DEV_SSH_PRIVATE_KEY }}
-          source: "deployment/*"
+          source: "deployment/alarm/.*"
           target: "/home/ec2-user/"
 
       - name: Deploy using Docker Compose
@@ -73,7 +73,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_DEV_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ec2-user/deployment/
+            cd /home/ec2-user/deployment/alarm/
             docker-compose -f docker-compose-alarm-dev.yml down
             docker system prune -f
             docker-compose -f docker-compose-alarm-dev.yml up -d --build
