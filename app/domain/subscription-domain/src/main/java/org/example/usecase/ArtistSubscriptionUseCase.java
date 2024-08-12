@@ -22,7 +22,7 @@ public class ArtistSubscriptionUseCase {
     }
 
     @Transactional
-    public void saveArtistSubscriptions(ArtistSubscriptionMessageDomainRequest request) {
+    public void artistSubscribe(ArtistSubscriptionMessageDomainRequest request) {
         var newSubscriptions = new ArrayList<ArtistSubscription>();
         var allSubscriptionByArtistId = artistSubscriptionRepository.findAllByUserFcmToken(request.userFcmToken())
             .stream()

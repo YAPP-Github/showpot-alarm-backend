@@ -25,7 +25,7 @@ public class SubscriptionAlarmService {
         //Todo 장르 구독한 user들에게 FCM 알림 요청
     }
 
-    public void saveArtistSubscriptions(ArtistSubscriptionMessageServiceRequest request) {
-        artistSubscriptionUseCase.saveArtistSubscriptions(request.toDomainRequest());
+    public void artistSubscribe(ArtistSubscriptionMessageServiceRequest request) {
+        artistSubscriptionUseCase.artistSubscribe(request.toDomainRequest());
     }
 }

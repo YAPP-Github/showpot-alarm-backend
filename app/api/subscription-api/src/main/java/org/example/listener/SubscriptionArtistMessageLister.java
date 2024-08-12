@@ -18,7 +18,7 @@ public class SubscriptionArtistMessageLister implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] pattern) {
         var request = MessageConverter.toArtistSubscriptionMessage(message);
-        subscriptionAlarmService.saveArtistSubscriptions(request.toServiceRequest());
+        subscriptionAlarmService.artistSubscribe(request.toServiceRequest());
     }
 
 }
