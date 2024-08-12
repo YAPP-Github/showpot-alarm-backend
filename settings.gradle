@@ -14,7 +14,7 @@ include (":app:domain:ticketing-domain")
 include (":app:domain:common-domain")
 
 include (":app:infrastructure")
-include(":app:infrastructure:message-queue")
+include (":app:infrastructure:fcm")
 include (":app:batch")
 
 
