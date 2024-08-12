@@ -6,7 +6,7 @@ import lombok.Builder;
 import org.example.service.dto.SubscriptionMessageServiceRequest;
 
 @Builder
-public record SubscriptionMessageApiRequest(
+public record ShowRelationSubscriptionMessageApiRequest(
     List<UUID> artistIds,
     List<UUID> genreIds
 ) {

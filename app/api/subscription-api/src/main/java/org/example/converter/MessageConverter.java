@@ -3,7 +3,7 @@ package org.example.converter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
-import org.example.listener.dto.SubscriptionMessageApiRequest;
+import org.example.listener.dto.ShowRelationSubscriptionMessageApiRequest;
 import org.springframework.data.redis.connection.Message;
 
 @Slf4j
@@ -11,12 +11,12 @@ public class MessageConverter {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static SubscriptionMessageApiRequest toSubscriptionMessage(Message message) {
+    public static ShowRelationSubscriptionMessageApiRequest toShowRelationSubscriptionMessage(Message message) {
         try {
 
             var convertedMessage = objectMapper.readValue(
                 message.getBody(),
-                SubscriptionMessageApiRequest.class
+                ShowRelationSubscriptionMessageApiRequest.class
             );
 
             log.info("Message published successfully to topic: {}", new String(message.getChannel()));

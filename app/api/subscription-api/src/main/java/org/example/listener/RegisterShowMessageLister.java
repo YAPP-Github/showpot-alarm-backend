@@ -9,15 +9,15 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Controller;
 
 @Controller
-@Qualifier(value = "registerShowMessageLister")
 @RequiredArgsConstructor
+@Qualifier(value = "registerShowMessageLister")
 public class RegisterShowMessageLister implements MessageListener {
 
     private final SubscriptionAlarmService subscriptionAlarmService;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        var request = MessageConverter.toSubscriptionMessage(message);
+        var request = MessageConverter.toShowRelationSubscriptionMessage(message);
         subscriptionAlarmService.showRelationSubscription(request.toServiceRequest());
     }
 

@@ -17,7 +17,7 @@ public class UpdateShowMessageLister implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        var request = MessageConverter.toSubscriptionMessage(message);
+        var request = MessageConverter.toShowRelationSubscriptionMessage(message);
         subscriptionAlarmService.showRelationSubscription(request.toServiceRequest());
     }
 
