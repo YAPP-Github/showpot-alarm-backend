@@ -2,6 +2,7 @@ package org.example.config;
 
 import lombok.RequiredArgsConstructor;
 import org.example.listener.RegisterShowMessageLister;
+import org.example.listener.SubscriptionArtistMessageLister;
 import org.example.listener.UpdateShowMessageLister;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,7 +19,8 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
     SubscriptionDomainConfig.class,
     PubSubConfig.class,
     RegisterShowMessageLister.class,
-    UpdateShowMessageLister.class
+    UpdateShowMessageLister.class,
+    SubscriptionArtistMessageLister.class
 })
 @ComponentScan(basePackages = "org.example")
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class SubscriptionApiConfig {
 
     private final MessageListener registerShowMessageLister;
     private final MessageListener updateShowMessageLister;
+    private final MessageListener subscriptionArtistMessageLister;
 
     @Bean
     MessageListenerAdapter registerShowMessageListenerAdapter() {
@@ -35,6 +38,11 @@ public class SubscriptionApiConfig {
     @Bean
     MessageListenerAdapter updateShowMessageListenerAdapter() {
         return new MessageListenerAdapter(updateShowMessageLister);
+    }
+
+    @Bean
+    MessageListenerAdapter subscriptionArtistMessageListerAdapter() {
+        return new MessageListenerAdapter(subscriptionArtistMessageLister);
     }
 
     @Bean
@@ -62,4 +70,18 @@ public class SubscriptionApiConfig {
             ChannelTopic.of("updateShow"));
         return container;
     }
+
+    @Bean
+    RedisMessageListenerContainer subscriptionArtistMessageListerContainer(
+        RedisConnectionFactory connectionFactory,
+        MessageListenerAdapter subscriptionArtistMessageListerAdapter
+    ) {
+
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(subscriptionArtistMessageListerAdapter,
+            ChannelTopic.of("artistSubscription"));
+        return container;
+    }
+
 }

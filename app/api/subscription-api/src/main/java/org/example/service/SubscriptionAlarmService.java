@@ -1,6 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.service.dto.ArtistSubscriptionMessageServiceRequest;
 import org.example.service.dto.SubscriptionMessageServiceRequest;
 import org.example.usecase.ArtistSubscriptionUseCase;
 import org.example.usecase.GenreSubscriptionUseCase;
@@ -22,5 +23,9 @@ public class SubscriptionAlarmService {
         var genreSubscribedUserFcmTokens = genreSubscriptionUseCase.findUserFcmTokensByGenreIds(request.genreIds());
         System.out.println(genreSubscribedUserFcmTokens);
         //Todo 장르 구독한 user들에게 FCM 알림 요청
+    }
+
+    public void saveArtistSubscriptions(ArtistSubscriptionMessageServiceRequest request) {
+        artistSubscriptionUseCase.saveArtistSubscriptions(request.toDomainRequest());
     }
 }
