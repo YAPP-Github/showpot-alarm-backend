@@ -2,6 +2,7 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.service.dto.ArtistSubscriptionMessageServiceRequest;
+import org.example.service.dto.GenreSubscriptionMessageServiceRequest;
 import org.example.service.dto.SubscriptionMessageServiceRequest;
 import org.example.usecase.ArtistSubscriptionUseCase;
 import org.example.usecase.GenreSubscriptionUseCase;
@@ -31,5 +32,9 @@ public class SubscriptionAlarmService {
 
     public void artistUnsubscribe(ArtistSubscriptionMessageServiceRequest request) {
         artistSubscriptionUseCase.artistUnsubscribe(request.toDomainRequest());
+    }
+
+    public void genreSubscribe(GenreSubscriptionMessageServiceRequest request) {
+        genreSubscriptionUseCase.genreSubscribe(request.toDomainRequest());
     }
 }

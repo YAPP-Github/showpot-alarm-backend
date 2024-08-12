@@ -3,7 +3,7 @@ package org.example.service.dto;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
-import org.example.config.ArtistSubscriptionMessageDomainRequest;
+import org.example.dto.ArtistSubscriptionMessageDomainRequest;
 
 @Builder
 public record ArtistSubscriptionMessageServiceRequest(

@@ -3,6 +3,7 @@ package org.example.config;
 import lombok.RequiredArgsConstructor;
 import org.example.listener.RegisterShowMessageLister;
 import org.example.listener.SubscriptionArtistMessageLister;
+import org.example.listener.SubscriptionGenreMessageLister;
 import org.example.listener.UnsubscriptionArtistMessageLister;
 import org.example.listener.UpdateShowMessageLister;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,8 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
     RegisterShowMessageLister.class,
     UpdateShowMessageLister.class,
     SubscriptionArtistMessageLister.class,
-    UnsubscriptionArtistMessageLister.class
+    UnsubscriptionArtistMessageLister.class,
+    SubscriptionGenreMessageLister.class
 })
 @ComponentScan(basePackages = "org.example")
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class SubscriptionApiConfig {
     private final MessageListener updateShowMessageLister;
     private final MessageListener subscriptionArtistMessageLister;
     private final MessageListener unsubscriptionArtistMessageLister;
+    private final MessageListener subscriptionGenreMessageLister;
 
     @Bean
     MessageListenerAdapter registerShowMessageListenerAdapter() {
@@ -51,6 +54,11 @@ public class SubscriptionApiConfig {
     @Bean
     MessageListenerAdapter unsubscriptionArtistMessageListerAdapter() {
         return new MessageListenerAdapter(unsubscriptionArtistMessageLister);
+    }
+
+    @Bean
+    MessageListenerAdapter subscriptionGenreMessageListerAdapter() {
+        return new MessageListenerAdapter(subscriptionGenreMessageLister);
     }
 
     @Bean
@@ -102,6 +110,19 @@ public class SubscriptionApiConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(unsubscriptionArtistMessageListerAdapter,
             ChannelTopic.of("artistUnsubscription"));
+        return container;
+    }
+
+    @Bean
+    RedisMessageListenerContainer subscriptionGenreMessageListerContainer(
+        RedisConnectionFactory connectionFactory,
+        MessageListenerAdapter subscriptionGenreMessageListerAdapter
+    ) {
+
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(subscriptionGenreMessageListerAdapter,
+            ChannelTopic.of("genreSubscription"));
         return container;
     }
 

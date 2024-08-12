@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.example.config.ArtistSubscriptionMessageDomainRequest;
+import org.example.dto.ArtistSubscriptionMessageDomainRequest;
 import org.example.entity.ArtistSubscription;
 import org.example.repository.subscription.artistsubscription.ArtistSubscriptionRepository;
 import org.springframework.stereotype.Component;
