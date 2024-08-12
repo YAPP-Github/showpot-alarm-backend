@@ -11,8 +11,8 @@ services:
     ports:
       - '8081:8081'
     networks:
-      - app-network
+      - yapp-network
 
 networks:
-  app-network:
-    driver: bridge
+  yapp-network:
+    external: true
