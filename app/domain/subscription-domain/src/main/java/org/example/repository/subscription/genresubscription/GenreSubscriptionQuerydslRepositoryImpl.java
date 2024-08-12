@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.example.entity.GenreSubscription;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,5 +23,14 @@ public class GenreSubscriptionQuerydslRepositoryImpl implements
             .from(genreSubscription)
             .where(genreSubscription.genreId.in(genreIds))
             .fetch();
+    }
+
+    @Override
+    public List<GenreSubscription> findSubscriptionList(String userFcmToken) {
+        return jpaQueryFactory
+            .selectFrom(genreSubscription)
+            .where(genreSubscription.userFcmToken.eq(userFcmToken)
+                .and(genreSubscription.isDeleted.isFalse())
+            ).fetch();
     }
 }

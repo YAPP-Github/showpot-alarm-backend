@@ -45,4 +45,15 @@ public class GenreSubscriptionUseCase {
 
         genreSubscriptionRepository.saveAll(newSubscriptions);
     }
+
+    @Transactional
+    public void genreUnsubscribe(GenreSubscriptionMessageDomainRequest request) {
+        var subscriptions = genreSubscriptionRepository.findSubscriptionList(
+            request.userFcmToken());
+        var filteredSubscription = subscriptions.stream()
+            .filter(it -> request.genreIds().contains(it.getGenreId()))
+            .toList();
+
+        filteredSubscription.forEach(GenreSubscription::unsubscribe);
+    }
 }

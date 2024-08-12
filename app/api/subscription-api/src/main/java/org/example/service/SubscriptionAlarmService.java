@@ -37,4 +37,8 @@ public class SubscriptionAlarmService {
     public void genreSubscribe(GenreSubscriptionMessageServiceRequest request) {
         genreSubscriptionUseCase.genreSubscribe(request.toDomainRequest());
     }
+
+    public void genreUnsubscribe(GenreSubscriptionMessageServiceRequest request) {
+        genreSubscriptionUseCase.genreUnsubscribe(request.toDomainRequest());
+    }
 }
