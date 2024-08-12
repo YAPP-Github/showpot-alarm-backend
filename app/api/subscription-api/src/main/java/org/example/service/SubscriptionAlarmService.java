@@ -28,4 +28,8 @@ public class SubscriptionAlarmService {
     public void artistSubscribe(ArtistSubscriptionMessageServiceRequest request) {
         artistSubscriptionUseCase.artistSubscribe(request.toDomainRequest());
     }
+
+    public void artistUnsubscribe(ArtistSubscriptionMessageServiceRequest request) {
+        artistSubscriptionUseCase.artistUnsubscribe(request.toDomainRequest());
+    }
 }

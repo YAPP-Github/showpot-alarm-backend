@@ -44,4 +44,14 @@ public class ArtistSubscriptionUseCase {
 
         artistSubscriptionRepository.saveAll(newSubscriptions);
     }
+
+    @Transactional
+    public void artistUnsubscribe(ArtistSubscriptionMessageDomainRequest request) {
+        var subscriptions = artistSubscriptionRepository.findSubscriptionList(request.userFcmToken());
+        var filteredSubscription = subscriptions.stream()
+            .filter(it -> request.artistIds().contains(it.getArtistId()))
+            .toList();
+
+        filteredSubscription.forEach(ArtistSubscription::unsubscribe);
+    }
 }
