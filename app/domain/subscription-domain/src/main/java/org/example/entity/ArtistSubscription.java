@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
 public class ArtistSubscription extends BaseEntity {
 
     @Column(nullable = false)
-    private UUID userId;
+    private String userFcmToken;
 
     @Column(nullable = false)
     private UUID artistId;
 
     @Builder
-    public ArtistSubscription(UUID userId, UUID artistId) {
-        this.userId = userId;
+    public ArtistSubscription(String userFcmToken, UUID artistId) {
+        this.userFcmToken = userFcmToken;
         this.artistId = artistId;
     }
 

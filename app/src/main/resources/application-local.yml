@@ -8,12 +8,12 @@ spring:
         enabled: true
   docker:
     compose:
-      enabled: true
+      enabled: false
       lifecycle-management: start_and_stop
       stop:
         command: down
         timeout: 1m
-      file: docker-compose-local.yml
+      file: docker-compose-alarm-local.yml
   data:
     redis:
       host: localhost

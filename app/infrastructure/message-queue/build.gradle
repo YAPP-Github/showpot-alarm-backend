@@ -1,8 +1,0 @@
-dependencies {
-    implementation project(":app:api:subscription-api")
-    implementation project(":app:api:ticketing-api")
-
-    //redis pub & sub
-    implementation 'org.springframework.data:spring-data-redis'
-    implementation 'io.lettuce:lettuce-core:6.3.0.RELEASE'
-}
