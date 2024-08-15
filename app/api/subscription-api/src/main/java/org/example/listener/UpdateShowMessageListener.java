@@ -10,15 +10,15 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-@Qualifier(value = "unsubscriptionArtistMessageLister")
-public class UnsubscriptionArtistMessageLister implements MessageListener {
+@Qualifier(value = "updateShowMessageListener")
+public class UpdateShowMessageListener implements MessageListener {
 
     private final SubscriptionAlarmService subscriptionAlarmService;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        var request = SubscriptionMessageConverter.toArtistSubscriptionMessage(message);
-        subscriptionAlarmService.artistUnsubscribe(request.toServiceRequest());
+        var request = SubscriptionMessageConverter.toShowRelationSubscriptionMessage(message);
+        subscriptionAlarmService.showRelationSubscription(request.toServiceRequest());
     }
 
 }

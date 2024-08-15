@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-@Qualifier(value = "subscriptionGenreMessageLister")
-public class SubscriptionGenreMessageLister implements MessageListener {
+@Qualifier(value = "subscriptionGenreMessageListener")
+public class SubscriptionGenreMessageListener implements MessageListener {
 
     private final SubscriptionAlarmService subscriptionAlarmService;
 
