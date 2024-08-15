@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,9 +22,17 @@ public class TicketingAlert extends BaseEntity {
     @Column(name = "schedule_alert_time", nullable = false)
     private LocalDateTime alertTime;
 
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    @Column(name = "user_fcm_token", nullable = false)
+    private String userFcmToken;
 
     @Column(name = "show_id", nullable = false)
     private UUID showId;
+
+    @Builder
+    private TicketingAlert(String name, LocalDateTime alertTime, String userFcmToken, UUID showId) {
+        this.name = name;
+        this.alertTime = alertTime;
+        this.userFcmToken = userFcmToken;
+        this.showId = showId;
+    }
 }

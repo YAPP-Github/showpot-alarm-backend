@@ -9,7 +9,7 @@ import org.example.listener.dto.ShowRelationSubscriptionMessageApiRequest;
 import org.springframework.data.redis.connection.Message;
 
 @Slf4j
-public class MessageConverter {
+public class SubscriptionMessageConverter {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
