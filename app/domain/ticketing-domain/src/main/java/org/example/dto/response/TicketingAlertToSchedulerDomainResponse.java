@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
+import org.example.dto.request.TicketingReservationMessageDomainRequest;
 
 @Builder
 public record TicketingAlertToSchedulerDomainResponse(
@@ -14,20 +15,17 @@ public record TicketingAlertToSchedulerDomainResponse(
     List<LocalDateTime> alertTimesToRemove
 ) {
 
-    public static TicketingAlertToSchedulerDomainResponse from(
-        TicketingAlertDomainResponse ticketingAlertToAdd,
-        TicketingAlertDomainResponse ticketingAlertToRemove
+    public static TicketingAlertToSchedulerDomainResponse as(
+        TicketingReservationMessageDomainRequest request,
+        List<LocalDateTime> alertTimesToAdd,
+        List<LocalDateTime> alertTimesToRemove
     ) {
-        String name = ticketingAlertToAdd.name();
-        String userFcmToken = ticketingAlertToAdd.userFcmToken();
-        UUID showId = ticketingAlertToAdd.showId();
-
         return TicketingAlertToSchedulerDomainResponse.builder()
-            .name(name)
-            .userFcmToken(userFcmToken)
-            .showId(showId)
-            .alertTimesToAdd(ticketingAlertToAdd.alertTimes())
-            .alertTimesToRemove(ticketingAlertToRemove.alertTimes())
+            .name(request.name())
+            .userFcmToken(request.userFcmToken())
+            .showId(request.showId())
+            .alertTimesToAdd(alertTimesToAdd)
+            .alertTimesToRemove(alertTimesToRemove)
             .build();
     }
 }

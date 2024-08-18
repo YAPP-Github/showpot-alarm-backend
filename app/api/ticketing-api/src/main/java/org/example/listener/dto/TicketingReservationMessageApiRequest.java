@@ -9,7 +9,8 @@ public record TicketingReservationMessageApiRequest(
     String userFcmToken,
     String name,
     UUID showId,
-    List<String> reserveAts
+    List<String> addAts,
+    List<String> deleteAts
 ) {
 
     public TicketingReservationMessageServiceRequest toServiceRequest() {
@@ -17,10 +18,8 @@ public record TicketingReservationMessageApiRequest(
             .userFcmToken(userFcmToken)
             .name(name)
             .showId(showId)
-            .reserveAts(reserveAts.stream()
-                .map(LocalDateTime::parse)
-                .toList()
-            )
+            .addAts(addAts.stream().map(LocalDateTime::parse).toList())
+            .deleteAts(deleteAts.stream().map(LocalDateTime::parse).toList())
             .build();
     }
 }

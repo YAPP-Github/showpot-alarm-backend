@@ -11,7 +11,8 @@ public record TicketingReservationMessageServiceRequest(
     String userFcmToken,
     String name,
     UUID showId,
-    List<LocalDateTime> reserveAts
+    List<LocalDateTime> addAts,
+    List<LocalDateTime> deleteAts
 ) {
 
     public TicketingReservationMessageDomainRequest toDomainRequest() {
@@ -19,7 +20,8 @@ public record TicketingReservationMessageServiceRequest(
             .userFcmToken(userFcmToken)
             .name(name)
             .showId(showId)
-            .reserveAts(reserveAts)
+            .addAts(addAts)
+            .deleteAts(deleteAts)
             .build();
     }
 }
