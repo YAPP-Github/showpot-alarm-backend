@@ -29,19 +29,27 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
     @Override
     public void reserveTicketingAlerts(TicketingAlertServiceResponse ticketingAlert) {
         try {
+            JobKey jobKey = getJobKey(ticketingAlert);
+            boolean jobExists = ticketingAlertscheduler.checkExists(jobKey);
+
+            if (!jobExists) {
+                JobDetail jobDetail = getJobDetail(ticketingAlert);
+                ticketingAlertscheduler.addJob(jobDetail, true, true);
+            }
+
             List<TriggerKey> triggerKeysToRemove = ticketingAlert.alertTimesToRemove().stream()
                 .map(alertTime -> getTriggerKey(ticketingAlert, alertTime))
                 .toList();
             ticketingAlertscheduler.unscheduleJobs(triggerKeysToRemove);
 
             for (LocalDateTime alertTime : ticketingAlert.alertTimesToAdd()) {
-                JobDetail jobDetail = getJobDetail(ticketingAlert, alertTime);
                 Trigger trigger = newTrigger()
                     .withIdentity(getTriggerKey(ticketingAlert, alertTime))
                     .startAt(Date.from(alertTime.atZone(ZoneId.systemDefault()).toInstant()))
+                    .forJob(jobKey)
                     .build();
 
-                ticketingAlertscheduler.scheduleJob(jobDetail, trigger);
+                ticketingAlertscheduler.scheduleJob(trigger);
             }
         } catch (SchedulerException e) {
             e.printStackTrace();
@@ -59,15 +67,8 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
         );
     }
 
-    private JobDetail getJobDetail(
-        TicketingAlertServiceResponse ticketingAlert,
-        LocalDateTime alertTime
-    ) {
-        JobKey jobKey = JobKey.jobKey(
-            ticketingAlert.userFcmToken() + " : "
-                + ticketingAlert.showId() + " : "
-                + alertTime
-        );
+    private JobDetail getJobDetail(TicketingAlertServiceResponse ticketingAlert) {
+        JobKey jobKey = getJobKey(ticketingAlert);
 
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("userFcmToken", ticketingAlert.userFcmToken());
@@ -77,5 +78,12 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
             .withIdentity(jobKey)
             .usingJobData(jobDataMap)
             .build();
+    }
+
+    private JobKey getJobKey(TicketingAlertServiceResponse ticketingAlert) {
+        return new JobKey(
+            ticketingAlert.userFcmToken() + " : "
+                + ticketingAlert.showId()
+        );
     }
 }
