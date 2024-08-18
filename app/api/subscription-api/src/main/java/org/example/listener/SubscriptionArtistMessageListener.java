@@ -1,7 +1,7 @@
 package org.example.listener;
 
 import lombok.RequiredArgsConstructor;
-import org.example.converter.MessageConverter;
+import org.example.converter.SubscriptionMessageConverter;
 import org.example.service.SubscriptionAlarmService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.connection.Message;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-@Qualifier(value = "unsubscriptionGenreMessageLister")
-public class UnsubscriptionGenreMessageLister implements MessageListener {
+@Qualifier(value = "subscriptionArtistMessageListener")
+public class SubscriptionArtistMessageListener implements MessageListener {
 
     private final SubscriptionAlarmService subscriptionAlarmService;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        var request = MessageConverter.toGenreSubscriptionMessage(message);
-        subscriptionAlarmService.genreUnsubscribe(request.toServiceRequest());
+        var request = SubscriptionMessageConverter.toArtistSubscriptionMessage(message);
+        subscriptionAlarmService.artistSubscribe(request.toServiceRequest());
     }
 
 }

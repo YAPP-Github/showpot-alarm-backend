@@ -1,12 +1,46 @@
 package org.example.config;
 
+import lombok.RequiredArgsConstructor;
+import org.example.listener.TicketingAlertMessageListener;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.connection.MessageListener;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 @Configuration
-@Import(TicketingDomainConfig.class)
+@Import({
+    PubSubConfig.class,
+    TicketingDomainConfig.class,
+    TicketingAlertMessageListener.class
+})
 @ComponentScan(basePackages = "org.example")
+@RequiredArgsConstructor
 public class TicketingApiConfig {
 
+    private final MessageListener ticketingAlertMessageListener;
+
+    @Bean
+    MessageListenerAdapter ticketingAlertMessageListenerAdapter() {
+        return new MessageListenerAdapter(ticketingAlertMessageListener);
+    }
+
+    @Bean
+    RedisMessageListenerContainer ticketingAlertMessageListenerContainer(
+        RedisConnectionFactory connectionFactory,
+        MessageListenerAdapter ticketingAlertMessageListenerAdapter
+    ) {
+
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(
+            ticketingAlertMessageListenerAdapter,
+            ChannelTopic.of("ticketingAlert")
+        );
+        return container;
+    }
 }

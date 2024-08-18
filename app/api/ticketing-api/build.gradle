@@ -1,4 +1,8 @@
 dependencies {
     implementation project(":app:domain:ticketing-domain")
     implementation project(":app:api:common-api")
+
+    //redis sub
+    implementation 'org.springframework.data:spring-data-redis'
+    implementation 'io.lettuce:lettuce-core:6.3.0.RELEASE'
 }

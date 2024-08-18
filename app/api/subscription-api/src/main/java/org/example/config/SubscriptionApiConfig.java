@@ -1,12 +1,12 @@
 package org.example.config;
 
 import lombok.RequiredArgsConstructor;
-import org.example.listener.RegisterShowMessageLister;
-import org.example.listener.SubscriptionArtistMessageLister;
-import org.example.listener.SubscriptionGenreMessageLister;
-import org.example.listener.UnsubscriptionArtistMessageLister;
-import org.example.listener.UnsubscriptionGenreMessageLister;
-import org.example.listener.UpdateShowMessageLister;
+import org.example.listener.RegisterShowMessageListener;
+import org.example.listener.SubscriptionArtistMessageListener;
+import org.example.listener.SubscriptionGenreMessageListener;
+import org.example.listener.UnsubscriptionArtistMessageListener;
+import org.example.listener.UnsubscriptionGenreMessageListener;
+import org.example.listener.UpdateShowMessageListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,52 +21,52 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @Import({
     SubscriptionDomainConfig.class,
     PubSubConfig.class,
-    RegisterShowMessageLister.class,
-    UpdateShowMessageLister.class,
-    SubscriptionArtistMessageLister.class,
-    UnsubscriptionArtistMessageLister.class,
-    SubscriptionGenreMessageLister.class,
-    UnsubscriptionGenreMessageLister.class
+    RegisterShowMessageListener.class,
+    UpdateShowMessageListener.class,
+    SubscriptionArtistMessageListener.class,
+    UnsubscriptionArtistMessageListener.class,
+    SubscriptionGenreMessageListener.class,
+    UnsubscriptionGenreMessageListener.class
 })
 @ComponentScan(basePackages = "org.example")
 @RequiredArgsConstructor
 public class SubscriptionApiConfig {
 
-    private final MessageListener registerShowMessageLister;
-    private final MessageListener updateShowMessageLister;
-    private final MessageListener subscriptionArtistMessageLister;
-    private final MessageListener unsubscriptionArtistMessageLister;
-    private final MessageListener subscriptionGenreMessageLister;
-    private final MessageListener unsubscriptionGenreMessageLister;
+    private final MessageListener registerShowMessageListener;
+    private final MessageListener updateShowMessageListener;
+    private final MessageListener subscriptionArtistMessageListener;
+    private final MessageListener unsubscriptionArtistMessageListener;
+    private final MessageListener subscriptionGenreMessageListener;
+    private final MessageListener unsubscriptionGenreMessageListener;
 
     @Bean
     MessageListenerAdapter registerShowMessageListenerAdapter() {
-        return new MessageListenerAdapter(registerShowMessageLister);
+        return new MessageListenerAdapter(registerShowMessageListener);
     }
 
     @Bean
     MessageListenerAdapter updateShowMessageListenerAdapter() {
-        return new MessageListenerAdapter(updateShowMessageLister);
+        return new MessageListenerAdapter(updateShowMessageListener);
     }
 
     @Bean
     MessageListenerAdapter subscriptionArtistMessageListerAdapter() {
-        return new MessageListenerAdapter(subscriptionArtistMessageLister);
+        return new MessageListenerAdapter(subscriptionArtistMessageListener);
     }
 
     @Bean
     MessageListenerAdapter unsubscriptionArtistMessageListerAdapter() {
-        return new MessageListenerAdapter(unsubscriptionArtistMessageLister);
+        return new MessageListenerAdapter(unsubscriptionArtistMessageListener);
     }
 
     @Bean
     MessageListenerAdapter subscriptionGenreMessageListerAdapter() {
-        return new MessageListenerAdapter(subscriptionGenreMessageLister);
+        return new MessageListenerAdapter(subscriptionGenreMessageListener);
     }
 
     @Bean
     MessageListenerAdapter unsubscriptionGenreMessageListerAdapter() {
-        return new MessageListenerAdapter(unsubscriptionGenreMessageLister);
+        return new MessageListenerAdapter(unsubscriptionGenreMessageListener);
     }
 
     @Bean
