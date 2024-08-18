@@ -24,6 +24,7 @@ allprojects {
 dependencies {
     implementation project(":app:api")
     implementation project(":app:infrastructure")
+    implementation project(":app:batch")
 
     // run spring application
     implementation "org.springframework.boot:spring-boot-starter-web"

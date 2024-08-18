@@ -1,7 +1,10 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.batch.TicketingAlertBatch;
+import org.example.dto.response.TicketingAlertToSchedulerDomainResponse;
 import org.example.service.dto.request.TicketingReservationMessageServiceRequest;
+import org.example.service.dto.response.TicketingAlertServiceResponse;
 import org.example.usecase.TicketingAlertUseCase;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +13,14 @@ import org.springframework.stereotype.Service;
 public class TicketingAlertService {
 
     private final TicketingAlertUseCase ticketingAlertUseCase;
+    private final TicketingAlertBatch ticketingAlertBatchComponent;
 
     public void reserveTicketingAlert(TicketingReservationMessageServiceRequest request) {
-        ticketingAlertUseCase.reserveTicketingAlert(request.toDomainRequest());
+        TicketingAlertToSchedulerDomainResponse ticketingAlertToScheduler = ticketingAlertUseCase.reserveTicketingAlert(
+            request.toDomainRequest());
 
-        //Todo Batch 작업 : 해당 공연에 대한 리스트를 뽑아서, 삭제 되어 있는것은 배치에서 삭제하고,추가된것은 배치에 넣음.
-        // -> 배치 이후 FCM
+        ticketingAlertBatchComponent.reserveTicketingAlerts(
+            TicketingAlertServiceResponse.from(ticketingAlertToScheduler)
+        );
     }
 }
