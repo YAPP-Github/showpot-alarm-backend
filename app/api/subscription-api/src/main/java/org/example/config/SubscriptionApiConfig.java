@@ -1,12 +1,6 @@
 package org.example.config;
 
 import lombok.RequiredArgsConstructor;
-import org.example.listener.RegisterShowMessageListener;
-import org.example.listener.SubscriptionArtistMessageListener;
-import org.example.listener.SubscriptionGenreMessageListener;
-import org.example.listener.UnsubscriptionArtistMessageListener;
-import org.example.listener.UnsubscriptionGenreMessageListener;
-import org.example.listener.UpdateShowMessageListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,17 +10,12 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.util.ErrorHandler;
 
 @Configuration
 @Import({
     SubscriptionDomainConfig.class,
-    PubSubConfig.class,
-    RegisterShowMessageListener.class,
-    UpdateShowMessageListener.class,
-    SubscriptionArtistMessageListener.class,
-    UnsubscriptionArtistMessageListener.class,
-    SubscriptionGenreMessageListener.class,
-    UnsubscriptionGenreMessageListener.class
+    PubSubConfig.class
 })
 @ComponentScan(basePackages = "org.example")
 @RequiredArgsConstructor
@@ -38,6 +27,8 @@ public class SubscriptionApiConfig {
     private final MessageListener unsubscriptionArtistMessageListener;
     private final MessageListener subscriptionGenreMessageListener;
     private final MessageListener unsubscriptionGenreMessageListener;
+    private final ErrorHandler redisSubErrorHandler;
+
 
     @Bean
     MessageListenerAdapter registerShowMessageListenerAdapter() {
@@ -79,6 +70,7 @@ public class SubscriptionApiConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(registerShowMessageListenerAdapter,
             ChannelTopic.of("registerShow"));
+        container.setErrorHandler(redisSubErrorHandler);
         return container;
     }
 
@@ -92,6 +84,7 @@ public class SubscriptionApiConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(updateShowMessageListenerAdapter,
             ChannelTopic.of("updateShow"));
+        container.setErrorHandler(redisSubErrorHandler);
         return container;
     }
 
@@ -105,6 +98,7 @@ public class SubscriptionApiConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(subscriptionArtistMessageListerAdapter,
             ChannelTopic.of("artistSubscription"));
+        container.setErrorHandler(redisSubErrorHandler);
         return container;
     }
 
@@ -118,6 +112,7 @@ public class SubscriptionApiConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(unsubscriptionArtistMessageListerAdapter,
             ChannelTopic.of("artistUnsubscription"));
+        container.setErrorHandler(redisSubErrorHandler);
         return container;
     }
 
@@ -131,6 +126,7 @@ public class SubscriptionApiConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(subscriptionGenreMessageListerAdapter,
             ChannelTopic.of("genreSubscription"));
+        container.setErrorHandler(redisSubErrorHandler);
         return container;
     }
 
@@ -144,6 +140,7 @@ public class SubscriptionApiConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(unsubscriptionGenreMessageListerAdapter,
             ChannelTopic.of("genreUnsubscription"));
+        container.setErrorHandler(redisSubErrorHandler);
         return container;
     }
 
