@@ -19,6 +19,7 @@ import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.springframework.stereotype.Component;
@@ -58,6 +59,10 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
                 Trigger trigger = newTrigger()
                     .withIdentity(getTriggerKey(ticketingAlert, alertTime))
                     .startAt(Date.from(alertTime.atZone(ZoneId.systemDefault()).toInstant()))
+                    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withIntervalInSeconds(10)
+                        .withRepeatCount(5)
+                        .withMisfireHandlingInstructionFireNow())
                     .forJob(jobKey)
                     .build();
 
