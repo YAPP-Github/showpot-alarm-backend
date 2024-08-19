@@ -11,4 +11,6 @@ public interface TicketingAlertRepository extends JpaRepository<TicketingAlert, 
         String userFcmToken,
         UUID showId
     );
+
+    List<TicketingAlert> findAllByIsDeletedFalse();
 }

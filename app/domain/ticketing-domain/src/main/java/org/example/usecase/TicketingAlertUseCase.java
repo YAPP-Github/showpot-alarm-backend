@@ -2,7 +2,10 @@ package org.example.usecase;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.request.TicketingAlertTargetDomainResponse;
 import org.example.dto.request.TicketingReservationMessageDomainRequest;
 import org.example.dto.response.TicketingAlertToSchedulerDomainResponse;
 import org.example.entity.BaseEntity;
@@ -27,7 +30,8 @@ public class TicketingAlertUseCase {
         );
 
         List<LocalDateTime> alertsTimeToAdd = addAlerts(ticketingReservations);
-        List<LocalDateTime> alertsTimeToRemove = removeAlerts(ticketingReservations, existingAlerts);
+        List<LocalDateTime> alertsTimeToRemove = removeAlerts(ticketingReservations,
+            existingAlerts);
 
         return TicketingAlertToSchedulerDomainResponse.as(
             ticketingReservations,
@@ -63,5 +67,25 @@ public class TicketingAlertUseCase {
         alertsToRemove.forEach(BaseEntity::softDelete);
 
         return alertsToRemove.stream().map(TicketingAlert::getAlertTime).toList();
+    }
+
+    public List<TicketingAlertToSchedulerDomainResponse> findAllTicketingAlerts() {
+        Map<TicketingAlertTargetDomainResponse, List<LocalDateTime>> groupedAlerts = ticketingAlertRepository
+            .findAllByIsDeletedFalse()
+            .stream()
+            .collect(
+                Collectors.groupingBy(
+                    TicketingAlertTargetDomainResponse::from,
+                    Collectors.mapping(TicketingAlert::getAlertTime, Collectors.toList())
+                )
+            );
+
+        return groupedAlerts.entrySet().stream()
+            .map(entry -> TicketingAlertToSchedulerDomainResponse.as(
+                    entry.getKey(),
+                    entry.getValue()
+                )
+            )
+            .toList();
     }
 }

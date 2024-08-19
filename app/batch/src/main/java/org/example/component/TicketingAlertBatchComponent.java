@@ -2,14 +2,17 @@ package org.example.component;
 
 import static org.quartz.TriggerBuilder.newTrigger;
 
+import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.batch.TicketingAlertBatch;
+import org.example.dto.response.TicketingAlertToSchedulerDomainResponse;
 import org.example.job.TicketingAlertQuartzJob;
 import org.example.service.dto.response.TicketingAlertServiceResponse;
+import org.example.usecase.TicketingAlertUseCase;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -25,8 +28,17 @@ import org.springframework.stereotype.Component;
 public class TicketingAlertBatchComponent implements TicketingAlertBatch {
 
     private final Scheduler ticketingAlertscheduler;
+    private final TicketingAlertUseCase ticketingAlertUseCase;
 
-    @Override
+    @PostConstruct
+    public void initializeJobsAndTriggers() {
+        var ticketingAlerts = ticketingAlertUseCase.findAllTicketingAlerts();
+
+        for (TicketingAlertToSchedulerDomainResponse ticketingAlert : ticketingAlerts) {
+            reserveTicketingAlerts(TicketingAlertServiceResponse.from(ticketingAlert));
+        }
+    }
+
     public void reserveTicketingAlerts(TicketingAlertServiceResponse ticketingAlert) {
         try {
             JobKey jobKey = getJobKey(ticketingAlert);
