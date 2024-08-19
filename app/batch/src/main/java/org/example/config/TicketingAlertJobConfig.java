@@ -1,7 +1,12 @@
 package org.example.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.listener.TicketingAlertJobListener;
+import org.example.listener.TicketingAlertTriggerListener;
+import org.quartz.JobListener;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +27,25 @@ public class TicketingAlertJobConfig {
     }
 
     @Bean
-    public Scheduler ticketingAlertscheduler(SchedulerFactoryBean schedulerFactoryBean) {
-        return schedulerFactoryBean.getScheduler();
+    public TicketingAlertJobListener ticketingAlertJobListener() {
+        return new TicketingAlertJobListener();
+    }
+
+    @Bean
+    public TicketingAlertTriggerListener ticketingAlertTriggerListener() {
+        return new TicketingAlertTriggerListener();
+    }
+
+    @Bean
+    public Scheduler ticketingAlertscheduler(
+        SchedulerFactoryBean schedulerFactoryBean,
+        JobListener ticketingAlertJobListener,
+        TriggerListener ticketingAlertTriggerListener
+    ) throws SchedulerException {
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        scheduler.getListenerManager().addJobListener(ticketingAlertJobListener);
+        scheduler.getListenerManager().addTriggerListener(ticketingAlertTriggerListener);
+
+        return scheduler;
     }
 }
