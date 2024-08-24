@@ -52,7 +52,9 @@ public class FCMConfig {
 
     private FirebaseApp initializeApp() throws IOException {
         FirebaseOptions options = FirebaseOptions.builder()
-            .setCredentials(GoogleCredentials.fromStream(fcmProperty.toInputStream()))
+            .setCredentials(
+                GoogleCredentials.fromStream(fcmProperty.toInputStream())
+            )
             .build();
 
         return FirebaseApp.initializeApp(options);
