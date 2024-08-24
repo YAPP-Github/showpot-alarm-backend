@@ -7,15 +7,13 @@ import org.example.message.MessageParam;
 @Builder
 public record FCMMessageParam(
     String title,
-    String body,
-    String imageURL
+    String body
 ) {
 
     public static FCMMessageParam from(MessageParam param) {
         return FCMMessageParam.builder()
             .title(param.title())
             .body(param.body())
-            .imageURL(param.imageURL())
             .build();
     }
 
@@ -23,7 +21,6 @@ public record FCMMessageParam(
         return Notification.builder()
             .setTitle(title())
             .setBody(body())
-            .setImage(imageURL())
             .build();
     }
 }
