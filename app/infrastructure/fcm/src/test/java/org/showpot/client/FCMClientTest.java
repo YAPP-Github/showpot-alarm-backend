@@ -54,6 +54,17 @@ public class FCMClientTest {
     }
 
     @Test
+    public void sendFailureSingleUser() throws FirebaseMessagingException {
+        MessageParam message = PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목");
+        FCMMessageParam fcmMessage = FCMMessageParam.from(message);
+
+        fcmClient.sendNotification(
+            "cB9rtWzKVkBWglacCkCvF4:abc",
+            fcmMessage.toNotification()
+        );
+    }
+
+    @Test
     public void sendMultiUser() throws FirebaseMessagingException {
         MessageParam message = PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목");
         FCMMessageParam fcmMessage = FCMMessageParam.from(message);

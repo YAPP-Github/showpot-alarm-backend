@@ -21,10 +21,14 @@ public class ArtistSubscription extends BaseEntity {
     @Column(nullable = false)
     private UUID artistId;
 
+    @Column(nullable = false)
+    private String artistName;
+
     @Builder
-    public ArtistSubscription(String userFcmToken, UUID artistId) {
+    public ArtistSubscription(String userFcmToken, UUID artistId, String artistName) {
         this.userFcmToken = userFcmToken;
         this.artistId = artistId;
+        this.artistName = artistName;
     }
 
     public void subscribe() {
