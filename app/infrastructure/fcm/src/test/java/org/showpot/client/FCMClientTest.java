@@ -40,11 +40,11 @@ public class FCMClientTest {
 
     private static Stream<Arguments> getMessage() {
         return Stream.of(
-            Arguments.of(PushMessageTemplate.getTicketingAlertMessageBefore24Hours()),
-            Arguments.of(PushMessageTemplate.getTicketingAlertMessageBefore6Hours()),
-            Arguments.of(PushMessageTemplate.getTicketingAlertMessageBefore1Hours()),
-            Arguments.of(PushMessageTemplate.getSubscribedArtistVisitKoreaAlertMessage()),
-            Arguments.of(PushMessageTemplate.getSubscribedGenreVisitKoreaAlertMessage())
+            Arguments.of(PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목")),
+            Arguments.of(PushMessageTemplate.getTicketingAlertMessageBefore6Hours("공연제목")),
+            Arguments.of(PushMessageTemplate.getTicketingAlertMessageBefore1Hours("공연제목")),
+            Arguments.of(PushMessageTemplate.getSubscribedArtistVisitKoreaAlertMessage("아티스트이름")),
+            Arguments.of(PushMessageTemplate.getSubscribedGenreVisitKoreaAlertMessage("장르이름"))
         );
     }
 }
