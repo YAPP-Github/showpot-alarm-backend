@@ -4,21 +4,21 @@ public class PushMessageTemplate {
 
     public static MessageParam getTicketingAlertMessageBefore1Hours(String showTitle) {
         return MessageParam.builder()
-            .title("알림설정한 공연의 티켓팅이 1시간 남았어요!")
+            .title("티켓팅이 1시간 남았어요!")
             .body(String.format("\"%s\"", showTitle))
             .build();
     }
 
     public static MessageParam getTicketingAlertMessageBefore6Hours(String showTitle) {
         return MessageParam.builder()
-            .title("알림설정한 공연의 티켓팅이 6시간 남았어요!")
+            .title("티켓팅이 6시간 남았어요!")
             .body(String.format("\"%s\"", showTitle))
             .build();
     }
 
     public static MessageParam getTicketingAlertMessageBefore24Hours(String showTitle) {
         return MessageParam.builder()
-            .title("알림설정한 공연의 티켓팅이 24시간 남았어요!")
+            .title("티켓팅이 24시간 남았어요!")
             .body(String.format("\"%s\"", showTitle))
             .build();
     }
