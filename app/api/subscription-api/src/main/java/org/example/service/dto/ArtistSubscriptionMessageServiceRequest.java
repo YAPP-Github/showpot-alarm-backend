@@ -1,20 +1,19 @@
 package org.example.service.dto;
 
 import java.util.List;
-import java.util.UUID;
 import lombok.Builder;
 import org.example.dto.ArtistSubscriptionMessageDomainRequest;
 
 @Builder
 public record ArtistSubscriptionMessageServiceRequest(
     String userFcmToken,
-    List<UUID> artistIds
+    List<ArtistMessageServiceRequest> artists
 ) {
 
     public ArtistSubscriptionMessageDomainRequest toDomainRequest() {
         return ArtistSubscriptionMessageDomainRequest.builder()
             .userFcmToken(userFcmToken)
-            .artistIds(artistIds)
+            .artists(artists.stream().map(ArtistMessageServiceRequest::toDomainRequest).toList())
             .build();
     }
 }
