@@ -4,6 +4,6 @@ spring:
   profiles:
     active: local
     group:
-      local: domain-local
-      dev: domain-dev
-      prod: domain-prod
+      local: domain-local, fcm-local
+      dev: domain-dev, fcm-dev
+      prod: domain-prod, fcm-prod

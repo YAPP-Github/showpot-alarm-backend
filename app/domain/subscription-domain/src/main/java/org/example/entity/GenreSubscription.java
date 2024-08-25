@@ -21,10 +21,14 @@ public class GenreSubscription extends BaseEntity {
     @Column(nullable = false)
     private UUID genreId;
 
+    @Column(nullable = false)
+    private String genreName;
+
     @Builder
-    private GenreSubscription(String userFcmToken, UUID genreId) {
+    private GenreSubscription(String userFcmToken, UUID genreId, String genreName) {
         this.userFcmToken = userFcmToken;
         this.genreId = genreId;
+        this.genreName = genreName;
     }
 
     public void subscribe() {
