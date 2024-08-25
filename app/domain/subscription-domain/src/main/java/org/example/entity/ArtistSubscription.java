@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "artist_subscription")
 public class ArtistSubscription extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(name = "user_fcm_token",  nullable = false)
     private String userFcmToken;
 
-    @Column(nullable = false)
+    @Column(name = "artist_id", nullable = false)
     private UUID artistId;
 
-    @Column(nullable = false)
+    @Column(name = "artist_name", nullable = false)
     private String artistName;
 
     @Builder
