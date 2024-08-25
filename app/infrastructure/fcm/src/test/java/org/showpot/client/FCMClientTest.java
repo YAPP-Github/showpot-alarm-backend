@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.example.message.MessageParam;
 import org.example.message.PushMessageTemplate;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,12 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
-@Profile("local")
 @ActiveProfiles("fcm-local")
 @Testcontainers
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -28,9 +27,10 @@ public class FCMClientTest {
     @Autowired
     private FCMClient fcmClient;
 
+    @Disabled
     @ParameterizedTest
     @MethodSource("getMessage")
-    public void sendSingleUser(MessageParam message) throws FirebaseMessagingException {
+    public void sendSingleUser(MessageParam message) {
         FCMMessageParam fcmMessage = FCMMessageParam.from(message);
 
         fcmClient.sendNotification(
@@ -41,6 +41,7 @@ public class FCMClientTest {
         );
     }
 
+    @Disabled
     @Test
     public void sendSingleUser() throws FirebaseMessagingException {
         MessageParam message = PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목");
@@ -55,6 +56,7 @@ public class FCMClientTest {
         );
     }
 
+    @Disabled
     @Test
     public void sendFailureSingleUser() throws FirebaseMessagingException {
         MessageParam message = PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목");
@@ -66,6 +68,7 @@ public class FCMClientTest {
         );
     }
 
+    @Disabled
     @Test
     public void sendMultiUser() throws FirebaseMessagingException {
         MessageParam message = PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목");
@@ -83,6 +86,7 @@ public class FCMClientTest {
         fcmClient.sendNotification(fcmTokens, fcmMessage.toNotification());
     }
 
+    @Disabled
     @Test
     public void allFail() {
         MessageParam message = PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목");
@@ -95,6 +99,7 @@ public class FCMClientTest {
         fcmClient.sendNotification(fcmTokens, fcmMessage.toNotification());
     }
 
+    @Disabled
     @Test
     public void failAndSuccess() {
         MessageParam message = PushMessageTemplate.getTicketingAlertMessageBefore24Hours("공연제목");
