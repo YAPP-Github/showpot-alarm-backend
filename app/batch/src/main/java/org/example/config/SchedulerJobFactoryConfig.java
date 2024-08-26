@@ -15,7 +15,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 @RequiredArgsConstructor
 @EnableBatchProcessing
 @ComponentScan(basePackages = "org.example")
-public class JobFactoryConfig {
+public class SchedulerJobFactoryConfig {
 
     private final ApplicationContext applicationContext;
 

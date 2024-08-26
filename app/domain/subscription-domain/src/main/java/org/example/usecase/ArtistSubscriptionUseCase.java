@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.example.dto.ArtistMessageDomainRequest;
-import org.example.dto.ArtistSubscriptionMessageDomainRequest;
+import org.example.dto.request.ArtistMessageDomainRequest;
+import org.example.dto.request.ArtistSubscriptionMessageDomainRequest;
+import org.example.dto.response.ArtistSubscriptionDomainResponse;
 import org.example.entity.ArtistSubscription;
 import org.example.repository.subscription.artistsubscription.ArtistSubscriptionRepository;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,8 @@ public class ArtistSubscriptionUseCase {
 
     private final ArtistSubscriptionRepository artistSubscriptionRepository;
 
-    public List<String> findUserFcmTokensByArtistIds(List<UUID> artistIds) {
-        return artistSubscriptionRepository.findUserFcmTokensByArtistIds(artistIds);
+    public List<ArtistSubscriptionDomainResponse> findArtistSubscriptionsByArtistIds(List<UUID> artistIds) {
+        return artistSubscriptionRepository.findArtistSubscriptionsByArtistIds(artistIds);
     }
 
     @Transactional

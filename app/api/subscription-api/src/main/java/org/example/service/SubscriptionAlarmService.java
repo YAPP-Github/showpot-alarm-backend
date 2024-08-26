@@ -1,8 +1,17 @@
 package org.example.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.example.SubscriptionMessage;
+import org.example.dto.response.ArtistSubscriptionDomainResponse;
+import org.example.dto.response.GenreSubscriptionDomainResponse;
+import org.example.message.MessageParam;
+import org.example.message.PushMessageTemplate;
 import org.example.service.dto.ArtistSubscriptionMessageServiceRequest;
 import org.example.service.dto.GenreSubscriptionMessageServiceRequest;
+import org.example.service.dto.MultipleTargetMessageServiceRequest;
 import org.example.service.dto.SubscriptionMessageServiceRequest;
 import org.example.usecase.ArtistSubscriptionUseCase;
 import org.example.usecase.GenreSubscriptionUseCase;
@@ -14,16 +23,45 @@ public class SubscriptionAlarmService {
 
     private final ArtistSubscriptionUseCase artistSubscriptionUseCase;
     private final GenreSubscriptionUseCase genreSubscriptionUseCase;
+    private final SubscriptionMessage subscriptionMessage;
 
 
     public void showRelationSubscription(SubscriptionMessageServiceRequest request) {
-        var artistSubscribedUserFcmTokens = artistSubscriptionUseCase.findUserFcmTokensByArtistIds(request.artistIds());
-        System.out.println(artistSubscribedUserFcmTokens);
-        //Todo 아티스트 구독한 user들에게 FCM 알림 요청
+        var artistSubscriptions = artistSubscriptionUseCase.findArtistSubscriptionsByArtistIds(request.artistIds());
+        Map<String, List<String>> artistSubscriptionsMap = artistSubscriptions.stream()
+            .collect(Collectors.groupingBy(
+                ArtistSubscriptionDomainResponse::artistName,
+                Collectors.mapping(
+                    ArtistSubscriptionDomainResponse::userFcmToken,
+                    Collectors.toList()
+                )
+            ));
+        for (Map.Entry<String, List<String>> entry : artistSubscriptionsMap.entrySet()) {
+            String artistName = entry.getKey();
+            List<String> fcmTokens = entry.getValue();
+            MessageParam message = PushMessageTemplate.getSubscribedArtistVisitKoreaAlertMessage(
+                artistName);
 
-        var genreSubscribedUserFcmTokens = genreSubscriptionUseCase.findUserFcmTokensByGenreIds(request.genreIds());
-        System.out.println(genreSubscribedUserFcmTokens);
-        //Todo 장르 구독한 user들에게 FCM 알림 요청
+            subscriptionMessage.send(MultipleTargetMessageServiceRequest.of(fcmTokens, message));
+        }
+
+        var genreSubscriptions = genreSubscriptionUseCase.findGenreSubscriptionsByGenreIds(request.genreIds());
+        Map<String, List<String>> genreSubscriptionsMap = genreSubscriptions.stream()
+            .collect(Collectors.groupingBy(
+                GenreSubscriptionDomainResponse::genreName,
+                Collectors.mapping(
+                    GenreSubscriptionDomainResponse::userFcmToken,
+                    Collectors.toList()
+                )
+            ));
+        for (Map.Entry<String, List<String>> entry : genreSubscriptionsMap.entrySet()) {
+            String genreName = entry.getKey();
+            List<String> fcmTokens = entry.getValue();
+            MessageParam message = PushMessageTemplate.getSubscribedGenreVisitKoreaAlertMessage(
+                genreName);
+
+            subscriptionMessage.send(MultipleTargetMessageServiceRequest.of(fcmTokens, message));
+        }
     }
 
     public void artistSubscribe(ArtistSubscriptionMessageServiceRequest request) {

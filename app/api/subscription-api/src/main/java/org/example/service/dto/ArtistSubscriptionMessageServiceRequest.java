@@ -2,7 +2,7 @@ package org.example.service.dto;
 
 import java.util.List;
 import lombok.Builder;
-import org.example.dto.ArtistSubscriptionMessageDomainRequest;
+import org.example.dto.request.ArtistSubscriptionMessageDomainRequest;
 
 @Builder
 public record ArtistSubscriptionMessageServiceRequest(

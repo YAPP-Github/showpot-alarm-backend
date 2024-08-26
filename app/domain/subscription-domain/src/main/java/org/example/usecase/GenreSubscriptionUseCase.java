@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.example.dto.GenreMessageDomainRequest;
-import org.example.dto.GenreSubscriptionMessageDomainRequest;
+import org.example.dto.request.GenreMessageDomainRequest;
+import org.example.dto.request.GenreSubscriptionMessageDomainRequest;
+import org.example.dto.response.GenreSubscriptionDomainResponse;
 import org.example.entity.GenreSubscription;
 import org.example.repository.subscription.genresubscription.GenreSubscriptionRepository;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,8 @@ public class GenreSubscriptionUseCase {
 
     private final GenreSubscriptionRepository genreSubscriptionRepository;
 
-    public List<String> findUserFcmTokensByGenreIds(List<UUID> genreIds) {
-        return genreSubscriptionRepository.findUserFcmTokensByGenreIds(genreIds);
+    public List<GenreSubscriptionDomainResponse> findGenreSubscriptionsByGenreIds(List<UUID> genreIds) {
+        return genreSubscriptionRepository.findGenreSubscriptionsByGenreIds(genreIds);
     }
 
     @Transactional
