@@ -1,6 +1,5 @@
 package org.example.service.dto.response;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
@@ -11,8 +10,8 @@ public record TicketingAlertServiceResponse(
     String name,
     String userFcmToken,
     UUID showId,
-    List<LocalDateTime> alertTimesToAdd,
-    List<LocalDateTime> alertTimesToRemove
+    List<TicketingAlertTimeServiceResponse> alertTimesToAdd,
+    List<TicketingAlertTimeServiceResponse> alertTimesToRemove
 ) {
 
     public static TicketingAlertServiceResponse from(
@@ -22,8 +21,16 @@ public record TicketingAlertServiceResponse(
             .name(ticketingAlert.name())
             .userFcmToken(ticketingAlert.userFcmToken())
             .showId(ticketingAlert.showId())
-            .alertTimesToAdd(ticketingAlert.alertTimesToAdd())
-            .alertTimesToRemove(ticketingAlert.alertTimesToRemove())
+            .alertTimesToAdd(
+                ticketingAlert.alertTimesToAdd().stream()
+                    .map(TicketingAlertTimeServiceResponse::from)
+                    .toList()
+            )
+            .alertTimesToRemove(
+                ticketingAlert.alertTimesToRemove().stream()
+                    .map(TicketingAlertTimeServiceResponse::from)
+                    .toList()
+            )
             .build();
     }
 }

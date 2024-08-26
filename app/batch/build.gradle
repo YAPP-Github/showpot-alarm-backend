@@ -11,5 +11,4 @@ allprojects {
 
 dependencies {
     implementation project(":app:api:ticketing-api")
-    implementation project(":app:domain:ticketing-domain")
 }

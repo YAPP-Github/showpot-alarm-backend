@@ -1,6 +1,5 @@
 package org.example.service.dto.request;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
@@ -12,7 +11,7 @@ public record TicketingReservationMessageServiceRequest(
     String name,
     UUID showId,
     List<TicketingTimeMessageServiceRequest> addAts,
-    List<LocalDateTime> deleteAts
+    List<TicketingTimeMessageServiceRequest> deleteAts
 ) {
 
     public TicketingReservationMessageDomainRequest toDomainRequest() {
@@ -21,7 +20,7 @@ public record TicketingReservationMessageServiceRequest(
             .name(name)
             .showId(showId)
             .addAts(addAts.stream().map(TicketingTimeMessageServiceRequest::toDomainRequest).toList())
-            .deleteAts(deleteAts)
+            .deleteAts(deleteAts.stream().map(TicketingTimeMessageServiceRequest::toDomainRequest).toList())
             .build();
     }
 }

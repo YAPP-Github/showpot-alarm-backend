@@ -1,9 +1,5 @@
 package org.example.vo;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
-
 public enum TicketingAlertTimeApiType {
     BEFORE_24(24),
     BEFORE_6(6),
@@ -31,19 +27,7 @@ public enum TicketingAlertTimeApiType {
         };
     }
 
-    public static List<TicketingAlertTime> availableReserveTimeToDomainType(
-        LocalDateTime ticketingAt,
-        List<TicketingAlertTimeApiType> alertTimes
-    ) {
-        long hoursDifference = Duration.between(LocalDateTime.now(), ticketingAt).toHours();
-
-        return alertTimes.stream()
-            .filter(alertTime -> {
-                return switch (alertTime) {
-                    case BEFORE_24, BEFORE_6, BEFORE_1 -> hoursDifference >= alertTime.time;
-                };
-            })
-            .map(TicketingAlertTimeApiType::toDomainType)
-            .toList();
+    public String getTime() {
+        return String.valueOf(this.time);
     }
 }

@@ -2,6 +2,13 @@ package org.example.message;
 
 public class PushMessageTemplate {
 
+    public static MessageParam getTicketingAlertMessageBeforeHours(String showTitle, String hour) {
+        return MessageParam.builder()
+            .title("티켓팅이 " + hour + "시간 남았어요!")
+            .body(String.format("\"%s\"", showTitle))
+            .build();
+    }
+
     public static MessageParam getTicketingAlertMessageBefore1Hours(String showTitle) {
         return MessageParam.builder()
             .title("티켓팅이 1시간 남았어요!")
