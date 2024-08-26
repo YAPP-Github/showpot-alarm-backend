@@ -1,6 +1,5 @@
 package org.example.service;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.batch.TicketingAlertBatch;
 import org.example.dto.response.TicketingAlertToSchedulerDomainResponse;
@@ -23,11 +22,5 @@ public class TicketingAlertService {
         ticketingAlertBatchComponent.reserveTicketingAlerts(
             TicketingAlertServiceResponse.from(ticketingAlertToScheduler)
         );
-    }
-
-    public List<TicketingAlertServiceResponse> findAllTicketingAlerts() {
-        return ticketingAlertUseCase.findAllTicketingAlerts().stream()
-            .map(TicketingAlertServiceResponse::from)
-            .toList();
     }
 }

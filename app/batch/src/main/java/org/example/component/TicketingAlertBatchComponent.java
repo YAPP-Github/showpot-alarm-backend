@@ -9,9 +9,10 @@ import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.batch.TicketingAlertBatch;
+import org.example.dto.response.TicketingAlertToSchedulerDomainResponse;
 import org.example.job.TicketingAlertQuartzJob;
-import org.example.service.TicketingAlertService;
 import org.example.service.dto.response.TicketingAlertServiceResponse;
+import org.example.usecase.TicketingAlertUseCase;
 import org.example.vo.TicketingAlertTimeApiType;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
@@ -29,12 +30,15 @@ import org.springframework.stereotype.Component;
 public class TicketingAlertBatchComponent implements TicketingAlertBatch {
 
     private final Scheduler ticketingAlertscheduler;
-    private final TicketingAlertService ticketingAlertService;
+    private final TicketingAlertUseCase ticketingAlertUseCase;
 
     @PostConstruct
     public void initializeJobsAndTriggers() {
-        ticketingAlertService.findAllTicketingAlerts()
-            .forEach(this::reserveTicketingAlerts);
+        var ticketingAlerts = ticketingAlertUseCase.findAllTicketingAlerts();
+
+        for (TicketingAlertToSchedulerDomainResponse response : ticketingAlerts) {
+            reserveTicketingAlerts(TicketingAlertServiceResponse.from(response));
+        }
     }
 
     @Override
