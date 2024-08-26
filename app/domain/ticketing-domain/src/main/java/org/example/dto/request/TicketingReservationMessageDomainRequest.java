@@ -10,7 +10,7 @@ public record TicketingReservationMessageDomainRequest(
     String userFcmToken,
     String name,
     UUID showId,
-    List<LocalDateTime> addAts,
+    List<TicketingTimeMessageDomainRequest> addAts,
     List<LocalDateTime> deleteAts
 ) {
 

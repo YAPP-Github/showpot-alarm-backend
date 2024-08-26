@@ -30,8 +30,7 @@ public class TicketingAlertUseCase {
         );
 
         List<LocalDateTime> alertsTimeToAdd = addAlerts(ticketingReservations);
-        List<LocalDateTime> alertsTimeToRemove = removeAlerts(ticketingReservations,
-            existingAlerts);
+        List<LocalDateTime> alertsTimeToRemove = removeAlerts(ticketingReservations, existingAlerts);
 
         return TicketingAlertToSchedulerDomainResponse.as(
             ticketingReservations,
@@ -46,7 +45,8 @@ public class TicketingAlertUseCase {
         List<TicketingAlert> alertsToAdd = ticketingReservation.addAts().stream()
             .map(addAt -> TicketingAlert.builder()
                 .name(ticketingReservation.name())
-                .alertTime(addAt)
+                .alertTime(addAt.alertAt())
+                .ticketingAlertTime(addAt.time())
                 .userFcmToken(ticketingReservation.userFcmToken())
                 .showId(ticketingReservation.showId())
                 .build()

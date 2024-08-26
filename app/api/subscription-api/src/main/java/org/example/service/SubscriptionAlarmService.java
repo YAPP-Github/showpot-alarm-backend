@@ -39,8 +39,7 @@ public class SubscriptionAlarmService {
         for (Map.Entry<String, List<String>> entry : artistSubscriptionsMap.entrySet()) {
             String artistName = entry.getKey();
             List<String> fcmTokens = entry.getValue();
-            MessageParam message = PushMessageTemplate.getSubscribedArtistVisitKoreaAlertMessage(
-                artistName);
+            MessageParam message = PushMessageTemplate.getSubscribedArtistVisitKoreaAlertMessage(artistName);
 
             subscriptionMessage.send(MultipleTargetMessageServiceRequest.of(fcmTokens, message));
         }
@@ -57,8 +56,7 @@ public class SubscriptionAlarmService {
         for (Map.Entry<String, List<String>> entry : genreSubscriptionsMap.entrySet()) {
             String genreName = entry.getKey();
             List<String> fcmTokens = entry.getValue();
-            MessageParam message = PushMessageTemplate.getSubscribedGenreVisitKoreaAlertMessage(
-                genreName);
+            MessageParam message = PushMessageTemplate.getSubscribedGenreVisitKoreaAlertMessage(genreName);
 
             subscriptionMessage.send(MultipleTargetMessageServiceRequest.of(fcmTokens, message));
         }

@@ -40,6 +40,7 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
         }
     }
 
+    @Override
     public void reserveTicketingAlerts(TicketingAlertServiceResponse ticketingAlert) {
         try {
             JobKey jobKey = getJobKey(ticketingAlert);
