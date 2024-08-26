@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "genre_subscription")
 public class GenreSubscription extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(name = "user_fcm_token", nullable = false)
     private String userFcmToken;
 
-    @Column(nullable = false)
+    @Column(name = "genre_id", nullable = false)
     private UUID genreId;
 
-    @Column(nullable = false)
+    @Column(name = "genre_name", nullable = false)
     private String genreName;
 
     @Builder

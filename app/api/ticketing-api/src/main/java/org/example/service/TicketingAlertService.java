@@ -16,8 +16,8 @@ public class TicketingAlertService {
     private final TicketingAlertBatch ticketingAlertBatchComponent;
 
     public void reserveTicketingAlert(TicketingReservationMessageServiceRequest request) {
-        TicketingAlertToSchedulerDomainResponse ticketingAlertToScheduler = ticketingAlertUseCase.reserveTicketingAlert(
-            request.toDomainRequest());
+        TicketingAlertToSchedulerDomainResponse ticketingAlertToScheduler = ticketingAlertUseCase
+            .reserveTicketingAlert(request.toDomainRequest());
 
         ticketingAlertBatchComponent.reserveTicketingAlerts(
             TicketingAlertServiceResponse.from(ticketingAlertToScheduler)

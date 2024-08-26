@@ -13,6 +13,7 @@ import org.example.dto.response.TicketingAlertToSchedulerDomainResponse;
 import org.example.job.TicketingAlertQuartzJob;
 import org.example.service.dto.response.TicketingAlertServiceResponse;
 import org.example.usecase.TicketingAlertUseCase;
+import org.example.vo.TicketingAlertTimeApiType;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -35,11 +36,12 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
     public void initializeJobsAndTriggers() {
         var ticketingAlerts = ticketingAlertUseCase.findAllTicketingAlerts();
 
-        for (TicketingAlertToSchedulerDomainResponse ticketingAlert : ticketingAlerts) {
-            reserveTicketingAlerts(TicketingAlertServiceResponse.from(ticketingAlert));
+        for (TicketingAlertToSchedulerDomainResponse response : ticketingAlerts) {
+            reserveTicketingAlerts(TicketingAlertServiceResponse.from(response));
         }
     }
 
+    @Override
     public void reserveTicketingAlerts(TicketingAlertServiceResponse ticketingAlert) {
         try {
             JobKey jobKey = getJobKey(ticketingAlert);
@@ -51,14 +53,15 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
             }
 
             List<TriggerKey> triggerKeysToRemove = ticketingAlert.alertTimesToRemove().stream()
-                .map(alertTime -> getTriggerKey(ticketingAlert, alertTime))
+                .map(alertTime -> getTriggerKey(ticketingAlert, alertTime.alertAt(),
+                    alertTime.ticketingAlertTime()))
                 .toList();
             ticketingAlertscheduler.unscheduleJobs(triggerKeysToRemove);
 
-            for (LocalDateTime alertTime : ticketingAlert.alertTimesToAdd()) {
+            for (var alertTime : ticketingAlert.alertTimesToAdd()) {
                 Trigger trigger = newTrigger()
-                    .withIdentity(getTriggerKey(ticketingAlert, alertTime))
-                    .startAt(Date.from(alertTime.atZone(ZoneId.systemDefault()).toInstant()))
+                    .withIdentity(getTriggerKey(ticketingAlert, alertTime.alertAt(), alertTime.ticketingAlertTime()))
+                    .startAt(Date.from(alertTime.alertAt().atZone(ZoneId.systemDefault()).toInstant()))
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds(10)
                         .withRepeatCount(5)
@@ -75,12 +78,14 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
 
     private TriggerKey getTriggerKey(
         TicketingAlertServiceResponse ticketingAlert,
-        LocalDateTime alertTime
+        LocalDateTime alertTime,
+        TicketingAlertTimeApiType type
     ) {
         return TriggerKey.triggerKey(
             ticketingAlert.userFcmToken() + " : "
                 + ticketingAlert.showId() + " : "
-                + alertTime
+                + alertTime,
+            type.getTime()
         );
     }
 
@@ -90,6 +95,7 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("userFcmToken", ticketingAlert.userFcmToken());
         jobDataMap.put("name", ticketingAlert.name());
+        jobDataMap.put("retryCount", 0);
 
         return JobBuilder.newJob(TicketingAlertQuartzJob.class)
             .withIdentity(jobKey)

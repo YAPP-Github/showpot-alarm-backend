@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':app:batch')
+    implementation project(':app:api:subscription-api')
 
     implementation 'com.google.firebase:firebase-admin:9.2.0'
 }

@@ -9,4 +9,11 @@ public record SingleTargetMessageBatchRequest(
     MessageParam message
 ) {
 
+    public static SingleTargetMessageBatchRequest from(String fcmToken, MessageParam message) {
+        return SingleTargetMessageBatchRequest.builder()
+            .fcmToken(fcmToken)
+            .message(message)
+            .build();
+    }
+
 }

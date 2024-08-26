@@ -1,20 +1,19 @@
 package org.example.listener.dto;
 
 import java.util.List;
-import java.util.UUID;
 import lombok.Builder;
 import org.example.service.dto.GenreSubscriptionMessageServiceRequest;
 
 @Builder
 public record GenreSubscriptionMessageApiRequest(
     String userFcmToken,
-    List<UUID> genreIds
+    List<GenreMessageApiRequest> genres
 ) {
 
     public GenreSubscriptionMessageServiceRequest toServiceRequest() {
         return GenreSubscriptionMessageServiceRequest.builder()
             .userFcmToken(userFcmToken)
-            .genreIds(genreIds)
+            .genres(genres.stream().map(GenreMessageApiRequest::toServiceRequest).toList())
             .build();
     }
 }

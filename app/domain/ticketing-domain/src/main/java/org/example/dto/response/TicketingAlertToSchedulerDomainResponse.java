@@ -1,6 +1,5 @@
 package org.example.dto.response;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
@@ -12,14 +11,14 @@ public record TicketingAlertToSchedulerDomainResponse(
     String name,
     String userFcmToken,
     UUID showId,
-    List<LocalDateTime> alertTimesToAdd,
-    List<LocalDateTime> alertTimesToRemove
+    List<TicketingAlertTimeDomainResponse> alertTimesToAdd,
+    List<TicketingAlertTimeDomainResponse> alertTimesToRemove
 ) {
 
     public static TicketingAlertToSchedulerDomainResponse as(
         TicketingReservationMessageDomainRequest request,
-        List<LocalDateTime> alertTimesToAdd,
-        List<LocalDateTime> alertTimesToRemove
+        List<TicketingAlertTimeDomainResponse> alertTimesToAdd,
+        List<TicketingAlertTimeDomainResponse> alertTimesToRemove
     ) {
         return TicketingAlertToSchedulerDomainResponse.builder()
             .name(request.name())
@@ -33,7 +32,7 @@ public record TicketingAlertToSchedulerDomainResponse(
 
     public static TicketingAlertToSchedulerDomainResponse as(
         TicketingAlertTargetDomainResponse key,
-        List<LocalDateTime> value
+        List<TicketingAlertTimeDomainResponse> value
     ) {
         return TicketingAlertToSchedulerDomainResponse.builder()
             .name(key.name())

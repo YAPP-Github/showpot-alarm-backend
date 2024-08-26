@@ -13,8 +13,7 @@ public class SubscriptionMessageConverter {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static ShowRelationSubscriptionMessageApiRequest toShowRelationSubscriptionMessage(
-        Message message) {
+    public static ShowRelationSubscriptionMessageApiRequest toShowRelationSubscriptionMessage(Message message) {
         try {
             var convertedMessage = objectMapper.readValue(
                 message.getBody(),
