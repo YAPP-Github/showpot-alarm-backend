@@ -3,30 +3,40 @@ package org.example.message;
 public class PushMessageTemplate {
 
     public static MessageParam getTicketingAlertMessageBeforeHours(String showTitle, String hour) {
+        switch (hour) {
+            case "1" -> {
+                return getTicketingAlertMessageBefore1Hours(showTitle, hour);
+            }
+            case "6" -> {
+                return getTicketingAlertMessageBefore6Hours(showTitle, hour);
+            }
+            case "24" -> {
+                return getTicketingAlertMessageBefore24Hours(showTitle, hour);
+            }
+            default -> {
+                throw new IllegalArgumentException("Unsupported hour: " + hour);
+            }
+        }
+    }
+
+    public static MessageParam getTicketingAlertMessageBefore1Hours(String showTitle, String hour) {
         return MessageParam.builder()
-            .title("티켓팅이 " + hour + "시간 남았어요!")
-            .body(String.format("\"%s\"", showTitle))
+            .title(showTitle + " 티켓팅이 " + hour + "시간 남았어요!")
+            .body(String.format(hour + "시간 후, " + showTitle + "예매가 시작됩니다!\n티켓팅을 잊지 말고 준비하세요🎟"))
             .build();
     }
 
-    public static MessageParam getTicketingAlertMessageBefore1Hours(String showTitle) {
+    public static MessageParam getTicketingAlertMessageBefore6Hours(String showTitle, String hour) {
         return MessageParam.builder()
-            .title("티켓팅이 1시간 남았어요!")
-            .body(String.format("\"%s\"", showTitle))
+            .title(showTitle + " 티켓팅이 " + hour + "시간 남았어요!")
+            .body(String.format(hour + "시간 후," + showTitle + "예매가 오픈됩니다!\n성공적인 티켓팅을 쇼팟이 응원해요🥰"))
             .build();
     }
 
-    public static MessageParam getTicketingAlertMessageBefore6Hours(String showTitle) {
+    public static MessageParam getTicketingAlertMessageBefore24Hours(String showTitle, String hour) {
         return MessageParam.builder()
-            .title("티켓팅이 6시간 남았어요!")
-            .body(String.format("\"%s\"", showTitle))
-            .build();
-    }
-
-    public static MessageParam getTicketingAlertMessageBefore24Hours(String showTitle) {
-        return MessageParam.builder()
-            .title("티켓팅이 24시간 남았어요!")
-            .body(String.format("\"%s\"", showTitle))
+            .title(showTitle + " 티켓팅이 " + hour + "시간 남았어요!")
+            .body(String.format(hour + "시간 후" + showTitle + "예매가 오픈됩니다.\n놓치지 말고 티켓팅을 준비하세요😀"))
             .build();
     }
 
