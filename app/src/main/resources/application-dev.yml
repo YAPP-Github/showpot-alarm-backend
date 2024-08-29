@@ -18,3 +18,8 @@ spring:
       host: redis
       port: 6379
 
+cloud:
+  aws:
+    credentials:
+      accessKey: ${ACCESS_KEY}
+      secretKey: ${SECRET_KEY}

@@ -31,6 +31,8 @@ jobs:
           spring.datasource.url: ${{ secrets.APPLICATION_DATASOURCE_URL_DEV }}
           spring.datasource.username: ${{ secrets.APPLICATION_DATASOURCE_USERNAME }}
           spring.datasource.password: ${{ secrets.APPLICATION_DATASOURCE_PASSWORD }}
+          cloud.aws.credentials.accessKey: ${{ secrets.AWS_ACCESS_KEY }}
+          cloud.aws.credentials.secretKey: ${{ secrets.AWS_SECRET_KEY }}
           fcm.project_id: ${{ secrets.FCM_PROJECT_ID }}
           fcm.private_key_id: ${{ secrets.FCM_PRIVATE_KEY_ID }}
           fcm.private_key: ${{ secrets.FCM_PRIVATE_KEY }}
