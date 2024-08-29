@@ -29,14 +29,14 @@ public class PushMessageTemplate {
     public static MessageParam getTicketingAlertMessageBefore6Hours(String showTitle, String hour) {
         return MessageParam.builder()
             .title(showTitle + " 티켓팅이 " + hour + "시간 남았어요!")
-            .body(String.format(hour + "시간 후," + showTitle + "예매가 오픈됩니다!\n성공적인 티켓팅을 쇼팟이 응원해요🥰"))
+            .body(String.format(hour + "시간 후, " + showTitle + "예매가 오픈됩니다!\n성공적인 티켓팅을 쇼팟이 응원해요🥰"))
             .build();
     }
 
     public static MessageParam getTicketingAlertMessageBefore24Hours(String showTitle, String hour) {
         return MessageParam.builder()
             .title(showTitle + " 티켓팅이 " + hour + "시간 남았어요!")
-            .body(String.format(hour + "시간 후" + showTitle + "예매가 오픈됩니다.\n놓치지 말고 티켓팅을 준비하세요😀"))
+            .body(String.format(hour + "시간 후, " + showTitle + "예매가 오픈됩니다.\n놓치지 말고 티켓팅을 준비하세요😀"))
             .build();
     }
 
