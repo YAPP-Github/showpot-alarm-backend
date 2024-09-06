@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - fix/alert
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
