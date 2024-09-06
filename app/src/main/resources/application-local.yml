@@ -1,3 +1,6 @@
+profile:
+  active: local
+
 server:
   port: 8081
 
