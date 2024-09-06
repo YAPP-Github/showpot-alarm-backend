@@ -1,3 +1,6 @@
+profile:
+  active: prod
+
 server:
   port: 8081
 

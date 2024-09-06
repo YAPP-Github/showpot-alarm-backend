@@ -1,7 +1,5 @@
 package org.example.component;
 
-import static org.quartz.TriggerBuilder.newTrigger;
-
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -21,6 +19,7 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.springframework.stereotype.Component;
 
@@ -57,14 +56,10 @@ public class TicketingAlertBatchComponent implements TicketingAlertBatch {
                 .toList();
             ticketingAlertscheduler.unscheduleJobs(triggerKeysToRemove);
 
-            int testSecond = 3;
             for (var alertTime : ticketingAlert.alertTimesToAdd()) {
-                LocalDateTime triggerStartTime = LocalDateTime.now().plusSeconds(testSecond);
-                testSecond += 2;
-
-                Trigger trigger = newTrigger()
+                Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity(getTriggerKey(ticketingAlert, alertTime.alertAt(), alertTime.ticketingAlertTime()))
-                    .startAt(Date.from(triggerStartTime.atZone(ZoneId.systemDefault()).toInstant()))
+                    .startAt(Date.from(alertTime.alertAt().atZone(ZoneId.systemDefault()).toInstant()))
                     .forJob(jobKey)
                     .build();
 
