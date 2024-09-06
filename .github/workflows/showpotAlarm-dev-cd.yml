@@ -1,4 +1,5 @@
-name: ShowPot-Dev-CD
+name: ShowPot-Alarm-Dev-CD
+
 on:
   push:
     branches:
