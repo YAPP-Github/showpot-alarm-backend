@@ -1,8 +1,10 @@
-name: ShowPot-Dev-CD
+name: ShowPot-Alarm-Dev-CD
+
 on:
   push:
     branches:
       - develop
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

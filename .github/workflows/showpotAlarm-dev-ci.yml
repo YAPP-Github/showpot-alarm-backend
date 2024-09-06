@@ -1,4 +1,4 @@
-name: ShowPotAlarm-Dev-CI
+name: ShowPot-Alarm-Dev-CI
 
 on:
   pull_request:
