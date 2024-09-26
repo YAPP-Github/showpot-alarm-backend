@@ -39,6 +39,8 @@ public class TicketingAlertQuartzJob implements Job {
                 PushMessageTemplate.getTicketingAlertMessageBeforeHours(name, time)
             )
         );
+
+        //TODO : 알림 디비 저장
     }
 
     // 실패 시 재시도 로직
