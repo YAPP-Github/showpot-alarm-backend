@@ -33,4 +33,8 @@ public class ShowAlarm extends BaseEntity {
         this.content = content;
         this.checked = checked;
     }
+
+    public void checked() {
+        this.checked = true;
+    }
 }
