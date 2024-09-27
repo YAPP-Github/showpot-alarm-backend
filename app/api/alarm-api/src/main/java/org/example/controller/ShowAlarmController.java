@@ -5,11 +5,13 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.example.controller.dto.param.ShowAlarmPaginationApiParam;
+import org.example.controller.dto.response.ShowAlarmActivateApiResponse;
 import org.example.dto.response.CursorApiResponse;
 import org.example.dto.response.PaginationApiResponse;
 import org.example.service.ShowAlarmService;
 import org.example.service.dto.request.ShowAlarmsServiceRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +52,17 @@ public class ShowAlarmController {
                 .data(data)
                 .cursor(cursor)
                 .build()
+        );
+    }
+
+    @GetMapping("/activate")
+    public ResponseEntity<ShowAlarmActivateApiResponse> getShowAlarmActivate(
+        @RequestParam(value = "fcmToken") String fcmToken
+    ) {
+        return ResponseEntity.ok(
+            ShowAlarmActivateApiResponse.from(
+                showAlarmService.getShowAlarmActivate(fcmToken)
+            )
         );
     }
 }

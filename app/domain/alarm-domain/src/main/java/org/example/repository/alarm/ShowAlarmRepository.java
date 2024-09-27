@@ -10,4 +10,6 @@ public interface ShowAlarmRepository extends JpaRepository<ShowAlarm, UUID>,
 
     Optional<ShowAlarm> findByIdAndIsDeletedFalse(UUID id);
 
+    boolean existsByUserFcmTokenAndCheckedFalse(String fcmToken);
+
 }

@@ -38,4 +38,8 @@ public class ShowAlarmUseCase {
                 showAlarm.checked();
             });
     }
+
+    public boolean hasUncheckedAlarms(String fcmToken) {
+        return showAlarmRepository.existsByUserFcmTokenAndCheckedFalse(fcmToken);
+    }
 }
