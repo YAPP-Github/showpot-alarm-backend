@@ -11,10 +11,12 @@ include (":app:api:common-api")
 include (":app:domain")
 include (":app:domain:subscription-domain")
 include (":app:domain:ticketing-domain")
+include (":app:domain:alarm-domain")
 include (":app:domain:common-domain")
 
 include (":app:infrastructure")
 include (":app:infrastructure:fcm")
 include (":app:batch")
-
+include 'app:api:alarm-api'
+findProject(':app:api:alarm-api')?.name = 'alarm-api'
 
