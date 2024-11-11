@@ -55,7 +55,7 @@ public class ShowAlarmController {
         );
     }
 
-    @GetMapping("/activate")
+    @GetMapping("/checked")
     public ResponseEntity<ShowAlarmActivateApiResponse> getShowAlarmActivate(
         @RequestParam(value = "fcmToken") String fcmToken
     ) {
