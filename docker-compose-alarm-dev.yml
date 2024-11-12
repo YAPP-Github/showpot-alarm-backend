@@ -1,5 +1,5 @@
 services:
-  app:
+  yapp_alarm_server:
     image: yapp_alarm
     container_name: yapp_alarm_server
     build:
